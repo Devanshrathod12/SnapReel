@@ -3,6 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import authReducer from './slices/authSlice';
 import feedReducer from './slices/feedSlice';
+import userReducer from './slices/userSlice';
+import reelReducer from './slices/reelSlice';
+import appReducer from './slices/appSlice';
 
 const persistConfig = {
   key: 'root',
@@ -13,6 +16,9 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   feed: feedReducer,
+  user: userReducer,
+  reels: reelReducer,
+  app: appReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

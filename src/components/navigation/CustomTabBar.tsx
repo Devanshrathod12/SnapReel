@@ -5,9 +5,11 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Icons } from '../../assets/icons';
 
 const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+  const isReelsScreen = state.routes[state.index].name === 'Reels';
+
   return (
-    <SafeAreaView edges={['bottom']} style={styles.safeArea}>
-      <View style={styles.container}>
+    <SafeAreaView edges={['bottom']} style={[styles.safeArea, isReelsScreen && styles.safeAreaReels]}>
+      <View style={[styles.container, isReelsScreen && styles.containerReels]}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const isFocused = state.index === index;
@@ -32,8 +34,8 @@ const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => 
                 style={styles.postButtonContainer}
                 activeOpacity={0.8}
               >
-                <View style={styles.postButton}>
-                  <Text style={styles.postIcon}>+</Text>
+                <View style={[styles.postButton, isReelsScreen && styles.postButtonReels]}>
+                  <Text style={[styles.postIcon, isReelsScreen && styles.postIconReels]}>+</Text>
                   <View style={styles.newBadge}>
                     <Text style={styles.newBadgeText}>NEW</Text>
                   </View>
@@ -70,13 +72,13 @@ const CustomTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => 
                 style={[
                   styles.icon,
                   route.name === 'Profile' && styles.profilePic,
-                  isFocused && route.name !== 'Profile' && { tintColor: '#000' },
-                  !isFocused && route.name !== 'Profile' && { tintColor: '#999' }
+                  isFocused && route.name !== 'Profile' && { tintColor: isReelsScreen ? '#fff' : '#000' },
+                  !isFocused && route.name !== 'Profile' && { tintColor: isReelsScreen ? '#aaa' : '#999' }
                 ]}
                 resizeMode="contain"
               />
               {isFocused && route.name !== 'Profile' && route.name !== 'Post' && (
-                <View style={styles.activeDot} />
+                <View style={[styles.activeDot, isReelsScreen && { backgroundColor: '#fff' }]} />
               )}
             </TouchableOpacity>
           );
@@ -100,6 +102,17 @@ const styles = StyleSheet.create({
     elevation: 20,
     overflow: 'visible',
   },
+  safeAreaReels: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    elevation: 0,
+    shadowOpacity: 0,
+  },
   container: {
     flexDirection: 'row',
     height: 70,
@@ -107,6 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
+  },
+  containerReels: {
+    backgroundColor: 'transparent',
   },
   tabButton: {
     flex: 1,
@@ -146,10 +162,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
   },
+  postButtonReels: {
+    backgroundColor: '#fff',
+  },
   postIcon: {
     color: '#fff',
     fontSize: 24,
     fontWeight: '300',
+  },
+  postIconReels: {
+    color: '#000',
   },
   newBadge: {
     position: 'absolute',

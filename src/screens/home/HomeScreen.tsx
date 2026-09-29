@@ -1,33 +1,90 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Animated, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Icons } from '../../assets/icons';
-import { Story, Post } from '../../redux/slices/feedSlice';
+import { Story, Post, toggleLike, toggleDislike } from '../../redux/slices/feedSlice';
 import { width, fontScale, scale, verticalScale, moderateScale } from '../../styles/responsive';
+import { Heart, Send, ThumbsUp, ThumbsDown } from 'lucide-react-native';
+
+const LikeAction = ({ post }: { post: Post }) => {
+  const dispatch = useDispatch();
+  const scaleValue = React.useRef(new Animated.Value(1)).current;
+
+  const handleLike = () => {
+    dispatch(toggleLike(post.id));
+    Animated.sequence([
+      Animated.timing(scaleValue, { toValue: 1.5, duration: 150, useNativeDriver: true }),
+      Animated.spring(scaleValue, { toValue: 1, friction: 3, useNativeDriver: true })
+    ]).start();
+  };
+
+  return (
+    <TouchableOpacity style={styles.actionItem} onPress={handleLike} activeOpacity={0.8}>
+      <Animated.View style={{ transform: [{ scale: scaleValue }], marginRight: scale(6) }}>
+        <ThumbsUp
+          size={moderateScale(20)}
+          color="#fff"
+          fill={post.isLiked ? '#fff' : 'transparent'}
+        />
+      </Animated.View>
+      <Text style={[styles.actionText, post.isLiked && { fontFamily: 'Poppins-SemiBold' }]}>{post.likes}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const DislikeAction = ({ post }: { post: Post }) => {
+  const dispatch = useDispatch();
+  const scaleValue = React.useRef(new Animated.Value(1)).current;
+
+  const handleDislike = () => {
+    dispatch(toggleDislike(post.id));
+    Animated.sequence([
+      Animated.timing(scaleValue, { toValue: 1.5, duration: 150, useNativeDriver: true }),
+      Animated.spring(scaleValue, { toValue: 1, friction: 3, useNativeDriver: true })
+    ]).start();
+  };
+
+  return (
+    <TouchableOpacity style={styles.actionItem} onPress={handleDislike} activeOpacity={0.8}>
+      <Animated.View style={{ transform: [{ scale: scaleValue }], marginRight: scale(6) }}>
+        <ThumbsDown
+          size={moderateScale(20)}
+          color="#fff"
+          fill={post.isDisliked ? '#fff' : 'transparent'}
+        />
+      </Animated.View>
+      <Text style={[styles.actionText, post.isDisliked && { fontFamily: 'Poppins-SemiBold' }]}>{post.dislikes}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const HomeScreen = () => {
   const { stories, posts } = useSelector((state: RootState) => state.feed);
 
+  const navigation = useNavigation<any>();
+
   const renderStory = ({ item }: { item: Story }) => (
-    <View style={styles.storyContainer}>
+    <TouchableOpacity
+      style={styles.storyContainer}
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('StoryScreen')}
+    >
       <View style={[styles.storyRing, item.isSeen ? styles.storySeen : styles.storyUnseen]}>
         <Image source={{ uri: item.user.avatar }} style={styles.storyAvatar} />
       </View>
       <Text style={styles.storyName}>{item.user.name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const renderPost = ({ item }: { item: Post }) => (
     <View style={styles.postContainer}>
       <Image source={{ uri: item.image }} style={styles.postImage} />
 
-      {/* Dark overlay effects for readability at top and bottom, leaving the center clear */}
       <View style={styles.postTopOverlay} />
-      <View style={styles.postBottomOverlay} />
 
-      {/* Post Header */}
       <View style={styles.postHeader}>
         <View style={styles.postHeaderLeft}>
           <Image source={{ uri: item.user.avatar }} style={styles.postHeaderAvatar} />
@@ -43,32 +100,27 @@ const HomeScreen = () => {
         </View>
       </View>
 
-      {/* Post Bottom Content */}
       <View style={styles.postBottom}>
-        <View style={styles.tagsContainer}>
-          {item.tags.map(tag => (
-            <View key={tag} style={styles.tagBadge}>
-              <Text style={styles.tagText}>{tag}</Text>
+        <View style={styles.postBottomContent}>
+          <View style={styles.tagsContainer}>
+            {item.tags.map(tag => (
+              <View key={tag} style={styles.tagBadge}>
+                <Text style={styles.tagText}>{tag}</Text>
+              </View>
+            ))}
+          </View>
+
+          <Text style={styles.captionText}>{item.caption}</Text>
+
+          <View style={styles.actionsRow}>
+            <LikeAction post={item} />
+            <DislikeAction post={item} />
+            <View style={styles.actionItem}>
+              <Image source={Icons.chat} style={styles.actionIcon} />
+              <Text style={styles.actionText}>{item.comments}</Text>
             </View>
-          ))}
-        </View>
-
-        <Text style={styles.captionText}>{item.caption}</Text>
-
-        <View style={styles.actionsRow}>
-          <View style={styles.actionItem}>
-            <Image source={Icons.like} style={styles.actionIcon} />
-            <Text style={styles.actionText}>{item.likes}</Text>
+            <Text style={styles.timeAgoText}>{item.timeAgo}</Text>
           </View>
-          <View style={styles.actionItem}>
-            <Image source={Icons.dislike} style={styles.actionIcon} />
-            <Text style={styles.actionText}>{item.dislikes}</Text>
-          </View>
-          <View style={styles.actionItem}>
-            <Image source={Icons.chat} style={styles.actionIcon} />
-            <Text style={styles.actionText}>{item.comments}</Text>
-          </View>
-          <Text style={styles.timeAgoText}>{item.timeAgo}</Text>
         </View>
 
         <View style={styles.footerRow}>
@@ -81,7 +133,9 @@ const HomeScreen = () => {
               />
             ))}
           </View>
-          <Text style={styles.likedByText}>{item.likedByText}</Text>
+          <Text style={styles.likedByText} numberOfLines={1}>
+            {item.likedByText}
+          </Text>
           <TouchableOpacity style={styles.moreOptionsBtn}>
             <Text style={styles.moreOptionsText}>⋮</Text>
           </TouchableOpacity>
@@ -92,22 +146,24 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      {/* Top Navigation */}
+      {/* @ts-ignore - backgroundColor is an Android-only prop that sometimes causes TS errors in newer @types/react-native */}
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.header}>
         <View style={styles.headerTabs}>
           <View style={styles.activeTabContainer}>
             <Text style={styles.headerTabActive}>Feed</Text>
             <View style={styles.activeDot} />
           </View>
-          <Text style={styles.headerTabInactive}>Reels</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Reels')}>
+            <Text style={styles.headerTabInactive}>Reels</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.headerIcons}>
-          <Image source={Icons.heart} style={styles.headerIcon} />
-          <Image source={Icons.send} style={styles.headerIcon} />
+          <Heart color="#000" size={moderateScale(26)} strokeWidth={1.5} style={{ marginLeft: scale(20) }} />
+          <Send color="#000" size={moderateScale(26)} strokeWidth={1.5} style={{ marginLeft: scale(16) }} />
         </View>
       </View>
 
-      {/* Top Stories Row (Fixed at Top) */}
       <View style={styles.storiesWrapper}>
         <FlatList
           horizontal
@@ -119,7 +175,6 @@ const HomeScreen = () => {
         />
       </View>
 
-      {/* Main Feed Posts (Horizontal Swipe) */}
       <FlatList
         data={posts}
         horizontal
@@ -148,6 +203,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: scale(20),
     paddingVertical: verticalScale(10),
+    backgroundColor: '#fff',
   },
   headerTabs: {
     flexDirection: 'row',
@@ -178,36 +234,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  headerIcon: {
-    width: moderateScale(24),
-    height: moderateScale(24),
-    marginLeft: scale(20),
-    tintColor: '#000',
-  },
   storiesWrapper: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    paddingBottom: verticalScale(15),
-    marginBottom: verticalScale(10),
+    paddingBottom: verticalScale(8),
+    backgroundColor: '#fff',
   },
   storiesContainer: {
     paddingHorizontal: scale(15),
-    paddingTop: verticalScale(10),
+    paddingTop: verticalScale(6),
   },
   storyContainer: {
     alignItems: 'center',
-    marginHorizontal: scale(8),
+    marginHorizontal: scale(6),
   },
   storyRing: {
-    width: moderateScale(68),
-    height: moderateScale(68),
-    borderRadius: moderateScale(34),
+    width: moderateScale(70),
+    height: moderateScale(70),
+    borderRadius: moderateScale(35),
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
+    borderWidth: 1.5,
+    backgroundColor: '#fff',
   },
   storyUnseen: {
-    borderColor: '#F5A623',
+    borderColor: '#E9A26A',
   },
   storySeen: {
     borderColor: 'transparent',
@@ -216,14 +265,13 @@ const styles = StyleSheet.create({
     width: moderateScale(60),
     height: moderateScale(60),
     borderRadius: moderateScale(30),
-    borderWidth: 2,
-    borderColor: '#fff',
+    backgroundColor: '#eee',
   },
   storyName: {
     marginTop: verticalScale(6),
-    fontFamily: 'Poppins-Regular',
-    fontSize: fontScale(12),
-    color: '#333',
+    fontFamily: 'Poppins-Medium',
+    fontSize: fontScale(13),
+    color: '#111',
   },
   feedList: {
     flex: 1,
@@ -243,20 +291,12 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: verticalScale(120),
+    height: verticalScale(60),
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  postBottomOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: verticalScale(250),
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   postHeader: {
     position: 'absolute',
-    top: verticalScale(20),
+    top: verticalScale(10),
     left: scale(15),
     right: scale(15),
     flexDirection: 'row',
@@ -272,7 +312,7 @@ const styles = StyleSheet.create({
     height: moderateScale(40),
     borderRadius: moderateScale(20),
     marginRight: scale(10),
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#fff',
   },
   postHeaderName: {
@@ -298,9 +338,15 @@ const styles = StyleSheet.create({
   },
   postBottom: {
     position: 'absolute',
-    bottom: verticalScale(20),
-    left: scale(15),
-    right: scale(15),
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  postBottomContent: {
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    paddingHorizontal: scale(15),
+    paddingTop: verticalScale(15),
+    paddingBottom: verticalScale(12),
   },
   tagsContainer: {
     flexDirection: 'row',
@@ -328,7 +374,6 @@ const styles = StyleSheet.create({
   actionsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: verticalScale(15),
   },
   actionItem: {
     flexDirection: 'row',
@@ -355,18 +400,19 @@ const styles = StyleSheet.create({
   footerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.2)',
-    paddingTop: verticalScale(15),
+    width: '100%',
+    paddingHorizontal: scale(15),
+    paddingVertical: verticalScale(12),
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
   },
   likedByAvatars: {
     flexDirection: 'row',
     marginRight: scale(10),
   },
   smallAvatar: {
-    width: moderateScale(24),
-    height: moderateScale(24),
-    borderRadius: moderateScale(12),
+    width: moderateScale(28),
+    height: moderateScale(28),
+    borderRadius: moderateScale(14),
     borderWidth: 1,
     borderColor: '#fff',
   },
@@ -380,7 +426,8 @@ const styles = StyleSheet.create({
     width: moderateScale(30),
     height: moderateScale(30),
     borderRadius: moderateScale(15),
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
