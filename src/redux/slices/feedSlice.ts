@@ -39,12 +39,12 @@ interface FeedState {
 const DUMMY_STORIES: Story[] = [
   { id: 's1', user: { id: 'u1', name: 'You', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' }, isSeen: false },
   { id: 's2', user: { id: 'u2', name: 'Nina', avatar: 'https://randomuser.me/api/portraits/women/33.jpg' }, isSeen: false },
-  // { id: 's3', user: { id: 'u3', name: 'Tate', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' }, isSeen: true },
-  // { id: 's4', user: { id: 'u4', name: 'Mike', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, isSeen: true },
-  // { id: 's5', user: { id: 'u5', name: 'Roy', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, isSeen: false },
-  // { id: 's6', user: { id: 'u6', name: 'Nate', avatar: 'https://randomuser.me/api/portraits/men/85.jpg' }, isSeen: false },
-  // { id: 's7', user: { id: 'u7', name: 'Sarah', avatar: 'https://randomuser.me/api/portraits/women/21.jpg' }, isSeen: true },
-  // { id: 's8', user: { id: 'u8', name: 'John', avatar: 'https://randomuser.me/api/portraits/men/11.jpg' }, isSeen: false },
+  { id: 's3', user: { id: 'u3', name: 'Tate', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' }, isSeen: true },
+  { id: 's4', user: { id: 'u4', name: 'Mike', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, isSeen: true },
+  { id: 's5', user: { id: 'u5', name: 'Roy', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, isSeen: false },
+  { id: 's6', user: { id: 'u6', name: 'Nate', avatar: 'https://randomuser.me/api/portraits/men/85.jpg' }, isSeen: false },
+  { id: 's7', user: { id: 'u7', name: 'Sarah', avatar: 'https://randomuser.me/api/portraits/women/21.jpg' }, isSeen: true },
+  { id: 's8', user: { id: 'u8', name: 'John', avatar: 'https://randomuser.me/api/portraits/men/11.jpg' }, isSeen: false },
 ];
 
 const generateDummyPosts = (): Post[] => {
@@ -54,10 +54,10 @@ const generateDummyPosts = (): Post[] => {
 
   const humanImageUrls = [
     'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=800&q=80', // man
-    // 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80', // woman
+    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80', // woman
     // 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80', // woman
     // 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80', // man
-    // 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=800&q=80', // woman
+    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=800&q=80', // woman
   ];
 
   for (let i = 1; i <= 20; i++) {
