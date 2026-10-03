@@ -107,77 +107,77 @@ const initialState: { reels: Reel[] } = {
       likedByText: 'Liked by sarah.j and 890 others',
     },
 
-    {
-      id: 'r3',
-      videoUrl:
-        'https://cdn.pixabay.com/video/2024/06/28/218541_large.mp4',
-      thumbnail: '',
-      user: {
-        avatar: 'https://randomuser.me/api/portraits/women/12.jpg',
-        name: 'Esther Howard',
-        followers: '860 Followers',
-      },
-      caption: 'A smooth drive through the city 🚗💨',
-      likes: 640,
-      dislikes: 12,
-      comments: 48,
-      bookmarks: 75,
-      rating: 4.2,
-      timeAgo: '5 Days Ago',
-      likedBy: [
-        { avatar: 'https://randomuser.me/api/portraits/men/50.jpg' },
-        { avatar: 'https://randomuser.me/api/portraits/women/29.jpg' },
-      ],
-      likedByText: 'Liked by alex.m and 120 others',
-    },
+    // {
+    //   id: 'r3',
+    //   videoUrl:
+    //     'https://cdn.pixabay.com/video/2024/06/28/218541_large.mp4',
+    //   thumbnail: '',
+    //   user: {
+    //     avatar: 'https://randomuser.me/api/portraits/women/12.jpg',
+    //     name: 'Esther Howard',
+    //     followers: '860 Followers',
+    //   },
+    //   caption: 'A smooth drive through the city 🚗💨',
+    //   likes: 640,
+    //   dislikes: 12,
+    //   comments: 48,
+    //   bookmarks: 75,
+    //   rating: 4.2,
+    //   timeAgo: '5 Days Ago',
+    //   likedBy: [
+    //     { avatar: 'https://randomuser.me/api/portraits/men/50.jpg' },
+    //     { avatar: 'https://randomuser.me/api/portraits/women/29.jpg' },
+    //   ],
+    //   likedByText: 'Liked by alex.m and 120 others',
+    // },
 
-    {
-      id: 'r4',
-      videoUrl:
-        'https://cdn.pixabay.com/video/2018/01/06/13704-250154065_large.mp4',
-      thumbnail: '',
-      user: {
-        avatar: 'https://randomuser.me/api/portraits/women/25.jpg',
-        name: 'Olivia Carter',
-        followers: '2,1k Followers',
-      },
-      caption: 'Dance, smile and enjoy every moment 💃🔥',
-      likes: 1120,
-      dislikes: 31,
-      comments: 86,
-      bookmarks: 142,
-      rating: 4.7,
-      timeAgo: '8 Days Ago',
-      likedBy: [
-        { avatar: 'https://randomuser.me/api/portraits/women/41.jpg' },
-        { avatar: 'https://randomuser.me/api/portraits/men/28.jpg' },
-      ],
-      likedByText: 'Liked by emma.j and 380 others',
-    },
+    // {
+    //   id: 'r4',
+    //   videoUrl:
+    //     'https://cdn.pixabay.com/video/2018/01/06/13704-250154065_large.mp4',
+    //   thumbnail: '',
+    //   user: {
+    //     avatar: 'https://randomuser.me/api/portraits/women/25.jpg',
+    //     name: 'Olivia Carter',
+    //     followers: '2,1k Followers',
+    //   },
+    //   caption: 'Dance, smile and enjoy every moment 💃🔥',
+    //   likes: 1120,
+    //   dislikes: 31,
+    //   comments: 86,
+    //   bookmarks: 142,
+    //   rating: 4.7,
+    //   timeAgo: '8 Days Ago',
+    //   likedBy: [
+    //     { avatar: 'https://randomuser.me/api/portraits/women/41.jpg' },
+    //     { avatar: 'https://randomuser.me/api/portraits/men/28.jpg' },
+    //   ],
+    //   likedByText: 'Liked by emma.j and 380 others',
+    // },
 
-    {
-      id: 'r5',
-      videoUrl:
-        'https://cdn.pixabay.com/video/2016/06/27/3608-172488324_large.mp4',
-      thumbnail: '',
-      user: {
-        avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
-        name: 'Daniel Cooper',
-        followers: '4,5k Followers',
-      },
-      caption: 'Watching the train pass by 🚆 What a view!',
-      likes: 1875,
-      dislikes: 52,
-      comments: 0,
-      bookmarks: 215,
-      rating: 4.9,
-      timeAgo: '3 Days Ago',
-      likedBy: [
-        { avatar: 'https://randomuser.me/api/portraits/men/52.jpg' },
-        { avatar: 'https://randomuser.me/api/portraits/women/37.jpg' },
-      ],
-      likedByText: 'Liked by mike.travel and 520 others',
-    },
+    // {
+    //   id: 'r5',
+    //   videoUrl:
+    //     'https://cdn.pixabay.com/video/2016/06/27/3608-172488324_large.mp4',
+    //   thumbnail: '',
+    //   user: {
+    //     avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
+    //     name: 'Daniel Cooper',
+    //     followers: '4,5k Followers',
+    //   },
+    //   caption: 'Watching the train pass by 🚆 What a view!',
+    //   likes: 1875,
+    //   dislikes: 52,
+    //   comments: 0,
+    //   bookmarks: 215,
+    //   rating: 4.9,
+    //   timeAgo: '3 Days Ago',
+    //   likedBy: [
+    //     { avatar: 'https://randomuser.me/api/portraits/men/52.jpg' },
+    //     { avatar: 'https://randomuser.me/api/portraits/women/37.jpg' },
+    //   ],
+    //   likedByText: 'Liked by mike.travel and 520 others',
+    // },
 
     {
       id: 'r6',

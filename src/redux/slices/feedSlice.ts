@@ -42,9 +42,9 @@ const DUMMY_STORIES: Story[] = [
   { id: 's3', user: { id: 'u3', name: 'Tate', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' }, isSeen: true },
   { id: 's4', user: { id: 'u4', name: 'Mike', avatar: 'https://randomuser.me/api/portraits/men/22.jpg' }, isSeen: true },
   { id: 's5', user: { id: 'u5', name: 'Roy', avatar: 'https://randomuser.me/api/portraits/men/45.jpg' }, isSeen: false },
-  { id: 's6', user: { id: 'u6', name: 'Nate', avatar: 'https://randomuser.me/api/portraits/men/85.jpg' }, isSeen: false },
-  { id: 's7', user: { id: 'u7', name: 'Sarah', avatar: 'https://randomuser.me/api/portraits/women/21.jpg' }, isSeen: true },
-  { id: 's8', user: { id: 'u8', name: 'John', avatar: 'https://randomuser.me/api/portraits/men/11.jpg' }, isSeen: false },
+  // { id: 's6', user: { id: 'u6', name: 'Nate', avatar: 'https://randomuser.me/api/portraits/men/85.jpg' }, isSeen: false },
+  // { id: 's7', user: { id: 'u7', name: 'Sarah', avatar: 'https://randomuser.me/api/portraits/women/21.jpg' }, isSeen: true },
+  // { id: 's8', user: { id: 'u8', name: 'John', avatar: 'https://randomuser.me/api/portraits/men/11.jpg' }, isSeen: false },
 ];
 
 const generateDummyPosts = (): Post[] => {
